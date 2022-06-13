@@ -69,8 +69,19 @@ public class MenuC {
     }
 
     public void initialize (){
-        //Setting the price
-        //Load Data into GUI
+//        counter.valueProperty().addListener((obs, oldValue, newValue) -> {
+//            OfferDataSet selectedItem = offerTable.getSelectionModel().getSelectedItem();
+//            if(selectedItem == null)return;
+//            double price = selectedItem.getPrice()*counter.getValue();
+//            price.setText(((double)Math.round(price*100)/100)+"€");
+//        });
+//        //load data into GUI
+//        counter.setEditable(false);
+//        counter_2.setEditable(false);
+//        setBalance();
+//        setTableValues();
+//        setInventory();
+
     }
     /*
      * private void setBalance(){
@@ -79,6 +90,20 @@ public class MenuC {
      * if (error){send error message in error Label}
      * else { //change name balanceLabel.setText(sender[1].toString()+"£");} */
 
+
+
+    public void setTableValues(){
+        // get all items that are being sold
+        //TODO Justus http request
+        // get information from every sold product and add to table
+        //Define which value the Colums store //Bonnie
+//        photo_type_markt.setCellValueFactory(new PropertyValueFactory//<OfferDataSet, String>("product"));
+//        price_markt.setCellValueFactory(new PropertyValueFactory//<OfferDataSet, Double>("price"));
+//        avaiable_markt.setCellValueFactory(new PropertyValueFactory//<OfferDataSet, Double>("available"));
+
+                                //add Values to table
+                                //offerTable.setItems(offersList);
+    }
 //TODO Justus: public void setTableValues(){
 // get all items that are being sold
 // get information from every sold product and add to table
