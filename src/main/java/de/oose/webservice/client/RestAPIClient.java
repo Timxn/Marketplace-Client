@@ -80,6 +80,84 @@ public class RestAPIClient {
         return 0;
     }
 
+    public static void setMoney(double money) {
+        JsonObject requestJson = new JsonObject();
+        requestJson.addProperty("token", String.valueOf(token));
+        requestJson.addProperty("value", money);
+        try {
+            Request request = new Request.Builder()
+                    .url("http://localhost:4567/user/addMoney")
+                    .post(RequestBody.create(MEDIA_TYPE_MARKDOWN, requestJson.toString()))
+                    .build();
+
+            try (Response response = client.newCall(request).execute()) {
+                if (response.code() == 200) {
+                }
+            }
+        } catch (IOException e) {
+        }
+    }
+
+    public static boolean deleteUser() {
+        JsonObject requestJson = new JsonObject();
+        requestJson.addProperty("token", String.valueOf(token));
+        try {
+            Request request = new Request.Builder()
+                    .url("http://localhost:4567/user/removeUser")
+                    .delete(RequestBody.create(MEDIA_TYPE_MARKDOWN, requestJson.toString()))
+                    .build();
+
+            try (Response response = client.newCall(request).execute()) {
+                if (response.code() == 200) {
+                    token = null;
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+        }
+        return false;
+    }
+
+    public static JsonObject getProducts() {
+        JsonObject requestJson = new JsonObject();
+        requestJson.addProperty("token", String.valueOf(token));
+        try {
+            Request request = new Request.Builder()
+                    .url("http://localhost:4567/market/products")
+                    .post(RequestBody.create(MEDIA_TYPE_MARKDOWN, requestJson.toString()))
+                    .build();
+
+            try (Response response = client.newCall(request).execute()) {
+                if (response.code() == 200) {
+                    JsonObject requestJSON = new JsonParser().parse(response.body().string()).getAsJsonObject();
+                    return requestJSON;
+                }
+            }
+        } catch (IOException e) {
+        }
+        return null;
+    }
+
+    public static JsonObject getDepot() {
+        JsonObject requestJson = new JsonObject();
+        requestJson.addProperty("token", String.valueOf(token));
+        try {
+            Request request = new Request.Builder()
+                    .url("http://localhost:4567/user/depot")
+                    .post(RequestBody.create(MEDIA_TYPE_MARKDOWN, requestJson.toString()))
+                    .build();
+
+            try (Response response = client.newCall(request).execute()) {
+                if (response.code() == 200) {
+                    JsonObject requestJSON = new JsonParser().parse(response.body().string()).getAsJsonObject();
+                    return requestJSON;
+                }
+            }
+        } catch (IOException e) {
+        }
+        return null;
+    }
+
     public static void buy(String productname, int count) {
         JsonObject requestJson = new JsonObject();
         requestJson.addProperty("productname", productname);
@@ -88,6 +166,40 @@ public class RestAPIClient {
         try {
             Request request = new Request.Builder()
                     .url("http://localhost:4567/market/buy")
+                    .post(RequestBody.create(MEDIA_TYPE_MARKDOWN, requestJson.toString()))
+                    .build();
+
+            try (Response response = client.newCall(request).execute()) {
+            }
+        } catch (IOException e) {
+        }
+    }
+
+    public static void addProductToMarket(String productname, int count) {
+        JsonObject requestJson = new JsonObject();
+        requestJson.addProperty("productname", productname);
+        requestJson.addProperty("count", count);
+        requestJson.addProperty("token", String.valueOf(token));
+        try {
+            Request request = new Request.Builder()
+                    .url("http://localhost:4567/market/addProductToMarket")
+                    .post(RequestBody.create(MEDIA_TYPE_MARKDOWN, requestJson.toString()))
+                    .build();
+
+            try (Response response = client.newCall(request).execute()) {
+            }
+        } catch (IOException e) {
+        }
+    }
+
+    public static void sell(String productname, int count) {
+        JsonObject requestJson = new JsonObject();
+        requestJson.addProperty("productname", productname);
+        requestJson.addProperty("count", count);
+        requestJson.addProperty("token", String.valueOf(token));
+        try {
+            Request request = new Request.Builder()
+                    .url("http://localhost:4567/market/sell")
                     .post(RequestBody.create(MEDIA_TYPE_MARKDOWN, requestJson.toString()))
                     .build();
 

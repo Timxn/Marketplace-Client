@@ -1,15 +1,36 @@
 package de.oose.webservice.client.gui;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import de.oose.webservice.client.Main;
+import de.oose.webservice.client.RestAPIClient;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class MenuC {
     long selectedBuyingProductOwnedId = 0;
     long selectedSellingProductId = 0;
+    private ArrayList<String> prices;
+    private ArrayList<String> names;
+    private ArrayList<String> depotPrices;
+    private ArrayList<String> depotNames;
 
+
+    @FXML
+    private ListView offer_List, inventory_list;
     @FXML
     private Label acc_money;
 
@@ -20,7 +41,7 @@ public class MenuC {
     private Spinner<?> counter;
 
     @FXML
-    private Spinner<?> counter_2;
+    private TextField counter_2;
 
     @FXML
     private TableColumn<?, ?> in_stock_inventory;
@@ -41,7 +62,7 @@ public class MenuC {
     private ChoiceBox<?> photo_type2;
 
     @FXML
-    private ChoiceBox<?> photo_type_2;
+    private TextField photo_type_2;
 
     @FXML
     private TableColumn<?, ?> photo_type_Inventory;
@@ -57,94 +78,120 @@ public class MenuC {
 
     @FXML
     private Button sell;
+    @FXML
+    TextField numberToBuy, newProductName, newProductCount, amount_money;
 
     @FXML
-    void logOutSystem(ActionEvent event) {
-
+    void logOutSystem() {
+        RestAPIClient.resetToken();
+        Stage stage = (Stage) log_out.getScene().getWindow();
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Anmeldung.fxml"));
+        Scene scene = null;
+        try {
+            scene = new Scene(fxmlLoader.load(), 960, 540);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        stage.setScene(scene);
+        stage.show();
     }
 
-    @FXML
-    void sellToMarket(ActionEvent event) {
-
+    public void delete_acc() {
+        if (RestAPIClient.deleteUser()) {
+            Stage stage = (Stage) log_out.getScene().getWindow();
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Anmeldung.fxml"));
+            Scene scene = null;
+            try {
+                scene = new Scene(fxmlLoader.load(), 960, 540);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            stage.setScene(scene);
+            stage.show();
+        }
     }
 
     public void initialize (){
-//        counter.valueProperty().addListener((obs, oldValue, newValue) -> {
-//            OfferDataSet selectedItem = offerTable.getSelectionModel().getSelectedItem();
-//            if(selectedItem == null)return;
-//            double price = selectedItem.getPrice()*counter.getValue();
-//            price.setText(((double)Math.round(price*100)/100)+"€");
-//        });
-//        //load data into GUI
-//        counter.setEditable(false);
-//        counter_2.setEditable(false);
-//        setBalance();
-//        setTableValues();
-//        setInventory();
+        offer_List.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                int tmp = offer_List.getSelectionModel().getSelectedIndex();
+                price.setText(prices.get(tmp));
+            }
+        });
+
+        inventory_list.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                String[] arr = newValue.toString().split(":");
+                photo_type_2.setText(arr[0]);
+            }
+        });
+        setBalance();
+        setTableValues();
+        setInventory();
 
     }
-    /*
-     * private void setBalance(){
-     * //get balance
-     * //TODO Justus: HTTP request
-     * if (error){send error message in error Label}
-     * else { //change name balanceLabel.setText(sender[1].toString()+"£");} */
-
-
-
-    public void setTableValues(){
-        // get all items that are being sold
-        //TODO Justus http request
-        // get information from every sold product and add to table
-        //Define which value the Colums store //Bonnie
-//        photo_type_markt.setCellValueFactory(new PropertyValueFactory//<OfferDataSet, String>("product"));
-//        price_markt.setCellValueFactory(new PropertyValueFactory//<OfferDataSet, Double>("price"));
-//        avaiable_markt.setCellValueFactory(new PropertyValueFactory//<OfferDataSet, Double>("available"));
-
-                                //add Values to table
-                                //offerTable.setItems(offersList);
-    }
-//TODO Justus: public void setTableValues(){
-// get all items that are being sold
-// get information from every sold product and add to table
-//Define which value the Colums store //Bonnie
-// add values to table //Bonnie},
-
-    public void setInventory(){
-        //get all items the user has
-//        Object[] sender = ...;
-        //TODO Justus
-//        String offers = sender[1].toString();
-//        JSONArray productsOwned = new JSONArray(offers);
-        counter.setDisable(true);
-        counter.setEditable(false);
-
-        //add all user products to product button
-        //TODO Justus mit Json ig
-        //TODO buttons
-        //set max sellable Amount for spinner
-        //disable amount input if user has no products
-
-    }
-
-    public void itemClicked(MouseEvent mouseEvent){
-
-    }
-
-    public void buyPressed(ActionEvent actionevent) {
-        //...
-        //TODO Justus send buy request (product ID and amount)
-
-    }
-
-    public void sellPressed () {
-            //..
-            // TODO Justus send sell request
-            // reset GUI
+     private void setBalance(){
+        acc_money.setText(String.valueOf(RestAPIClient.getBalance()));
      }
 
 
-//do profile actions
+    public void setTableValues(){
+        prices = new ArrayList<>();
+        names = new ArrayList<>();
+        ObservableList<String> observableList = FXCollections.observableArrayList();
+        JsonObject tmp = RestAPIClient.getProducts();
+        for (Map.Entry<String, JsonElement> att: tmp.entrySet()) {
+            JsonObject tmpObject = tmp.get(att.getKey()).getAsJsonObject();
+            observableList.add(att.getKey() + ": " + tmpObject.get("count") + " x " + tmpObject.get("price"));
+            prices.add(tmpObject.get("price").toString());
+            names.add(att.getKey());
+        }
+        offer_List.setItems(observableList);
+    }
+
+    public void setInventory(){
+        depotNames = new ArrayList<>();
+        ObservableList<String> observableList = FXCollections.observableArrayList();
+        JsonObject tmp = RestAPIClient.getDepot();
+        for (Map.Entry<String, JsonElement> att: tmp.entrySet()) {
+            JsonObject tmpObject = tmp.get(att.getKey()).getAsJsonObject();
+            observableList.add(att.getKey() + ": " + tmpObject.get("count"));
+            depotNames.add(att.getKey());
+        }
+        if (!observableList.isEmpty()) inventory_list.setItems(observableList);
+    }
+
+    public void buy_item(ActionEvent actionevent) {
+        String name = offer_List.getSelectionModel().toString();
+        RestAPIClient.buy(names.get(offer_List.getSelectionModel().getSelectedIndex()), Integer.valueOf(numberToBuy.getText()));
+        setTableValues();
+        setBalance();
+        setInventory();
+    }
+
+    public void sell() {
+        if (inventory_list.getSelectionModel().getSelectedIndex() >= 0) {
+            RestAPIClient.sell(depotNames.get(inventory_list.getSelectionModel().getSelectedIndex()), Integer.parseInt(counter_2.getText()));
+            setTableValues();
+            setBalance();
+            setInventory();
+        }
+    }
+    public void addProduktToMarket() {
+        RestAPIClient.addProductToMarket(newProductName.getText(), Integer.parseInt(newProductCount.getText()));
+        setTableValues();
+        setBalance();
+        setInventory();
+        newProductName.setText("");
+        newProductCount.setText("");
+     }
+
+     public void einzahlen() {
+        RestAPIClient.setMoney(Double.parseDouble(amount_money.getText()));
+        setBalance();
+     }
 }
 
 
