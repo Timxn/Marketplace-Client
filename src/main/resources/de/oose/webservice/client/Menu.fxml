@@ -3,93 +3,83 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.oose.webservice.client.gui.MenuC">
-  <tabs>
-    <Tab text="Angebotene Photos">
-      <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-               <children>
-                  <Spinner fx:id="counter" layoutX="196.0" layoutY="274.0" />
-                  <Label layoutX="14.0" layoutY="253.0" text="Photo Type:" textFill="#ff4b96">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                  <ChoiceBox fx:id="photo_type2" layoutX="14.0" layoutY="274.0" prefWidth="150.0" />
-                  <Label layoutX="196.0" layoutY="253.0" text="Menge:" textFill="#ff4b96">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="371.0" layoutY="253.0" text="Preis:" textFill="#ff4b96">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="price" layoutX="371.0" layoutY="278.0" textFill="#ff4b96" />
-                  <Label layoutX="14.0" layoutY="314.0" text="Kontostand:" textFill="#ff4b96">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="acc_money" layoutX="14.0" layoutY="332.0" textFill="#ff4b96" />
-                  <TableView layoutY="6.0" prefHeight="246.0" prefWidth="600.0">
-                    <columns>
-                        <TableColumn fx:id="photo_type_markt" prefWidth="75.0" text="Phototype" />
-                      <TableColumn fx:id="price_markt" prefWidth="75.0" text="Price" />
-                      <TableColumn fx:id="available_markt" prefWidth="75.0" text="Available" />
-                    </columns>
-                  </TableView>
-               </children></AnchorPane>
-      </content>
-    </Tab>
-    <Tab fx:id="photo_type1" text="Eigenes Portfolio">
-      <content>
-        <AnchorPane fx:id="into_inventory1" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-               <children>
-                  <Label layoutX="14.0" layoutY="224.0" text="Photo Type:" textFill="#ff4b96" />
-                  <Spinner fx:id="counter_2" layoutX="217.0" layoutY="242.0" />
-                  <Label layoutX="217.0" layoutY="224.0" text="Anzahl:" textFill="#ff4b96" />
-                  <Button fx:id="sell" layoutX="14.0" layoutY="286.0" mnemonicParsing="false" onAction="#sellToMarket" text="Verkaufen" textFill="#ff4b96">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Button>
-                  <ChoiceBox fx:id="photo_type_2" layoutX="14.0" layoutY="242.0" prefWidth="150.0" />
-                  <Button fx:id="into_inventory2" layoutX="149.0" layoutY="286.0" mnemonicParsing="false" text="Einstellen" textFill="#ff4b96">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Button>
-                  <TableView prefHeight="218.0" prefWidth="600.0">
-                    <columns>
-                      <TableColumn fx:id="photo_type_Inventory" prefWidth="75.0" text="Photo Type" />
-                      <TableColumn fx:id="in_stock_inventory" prefWidth="75.0" text="In Stock" />
-                    </columns>
-                  </TableView>
-               </children></AnchorPane>
-      </content>
-    </Tab>
-      <Tab text="Benutzer Konto">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-               <children>
-                  <Button fx:id="log_out" layoutX="25.0" layoutY="82.0" mnemonicParsing="false" onAction="#logOutSystem" text="Ausloggen" textAlignment="CENTER" textFill="#ff0090" underline="true">
-                     <font>
-                        <Font name="System Bold Italic" size="36.0" />
-                     </font>
-                  </Button>
-               </children>
-            </AnchorPane>
-        </content>
-      </Tab>
-  </tabs>
+    <tabs>
+        <Tab text="Angebotene Photos">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <children>
+<!--                        <Spinner fx:id="counter" layoutX="196.0" layoutY="274.0" />-->
+<!--                        <Label layoutX="14.0" layoutY="253.0" text="Photo Type:" textFill="#ff4b96">-->
+<!--                            <font>-->
+<!--                                <Font size="14.0" />-->
+<!--                            </font>-->
+<!--                        </Label>-->
+<!--                        <ChoiceBox fx:id="photo_type2" layoutX="14.0" layoutY="274.0" prefWidth="150.0" />-->
+<!--                        <Label layoutX="196.0" layoutY="253.0" text="Menge:" textFill="#ff4b96">-->
+<!--                            <font>-->
+<!--                                <Font size="14.0" />-->
+<!--                            </font>-->
+<!--                        </Label>-->
+                        <Label layoutX="371.0" layoutY="253.0" text="Preis:" textFill="#ff4b96" />
+                        <TextField fx:id="numberToBuy" layoutX="194.0" layoutY="350.0" text="1" />
+                        <Label fx:id="price" layoutX="371.0" layoutY="283.0" textFill="#ff4b96" />
+                        <Label layoutX="14.0" layoutY="253.0" text="Kontostand:" textFill="#ff4b96" />
+                        <Label fx:id="acc_money" layoutX="14.0" layoutY="283.0" textFill="#ff4b96" />
+                        <ListView fx:id="offer_List" prefHeight="254.0" prefWidth="600.0" />
+                        <Button fx:id="buy_button" layoutX="194.0" layoutY="320.0" mnemonicParsing="false" onAction="#buy_item" text="KAUFEN" />
+                        <Label fx:id="error_Label_markt" layoutX="373.0" layoutY="315.0" prefHeight="44.0" prefWidth="217.0" textFill="#ff3333" />
+                    </children></AnchorPane>
+            </content>
+        </Tab>
+        <Tab fx:id="photo_type1" text="Eigenes Portfolio">
+            <content>
+                <AnchorPane fx:id="into_inventory1" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <children>
+                        <Label layoutX="14.0" layoutY="224.0" text="ausgewähltes Produkt" textFill="#ff4b96" />
+                        <TextField fx:id="counter_2" layoutX="14.0" layoutY="288.0" text="1" />
+                        <Label layoutX="14.0" layoutY="268.0" text="Anzahl:" textFill="#ff4b96" />
+                        <Button fx:id="sell" layoutX="14.0" layoutY="323.0" mnemonicParsing="false" onAction="#sell" text="Verkaufen" textFill="#ff4b96" />
+                        <TextField fx:id="photo_type_2" layoutX="14.0" layoutY="242.0" prefWidth="150.0" />
+                        <ListView fx:id="inventory_list" prefHeight="223.0" prefWidth="600.0" />
+                        <Label fx:id="error_Label_inventory" layoutX="355.0" layoutY="237.0" prefHeight="86.0" prefWidth="230.0" textFill="#fc3c3c" />
+                        <TextField fx:id="newProductName" layoutX="250.0" layoutY="242.0" promptText="Produkt name" />
+                        <TextField fx:id="newProductCount" layoutX="250.0" layoutY="288.0" promptText="Produkt anzahl" />
+                        <Button fx:id="addProductToOffers" onAction="#addProduktToMarket" layoutX="250.0" layoutY="323.0" mnemonicParsing="false" text="Hinzufügen eines Produktes zum Markt" textFill="#ff4b96" />
+                    </children></AnchorPane>
+            </content>
+        </Tab>
+        <Tab text="Benutzer Konto">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <children>
+                        <Button fx:id="log_out" layoutX="25.0" layoutY="82.0" mnemonicParsing="false" onAction="#logOutSystem" text="Ausloggen" textAlignment="CENTER" textFill="#ff0090" underline="true">
+                            <font>
+                                <Font name="System Bold Italic" size="36.0" />
+                            </font>
+                        </Button>
+                        <Button fx:id="delete_acc_button" layoutX="25.0" layoutY="194.0" mnemonicParsing="false" onAction="#delete_acc" prefHeight="74.0" prefWidth="226.0" text="Löschen" textAlignment="CENTER" textFill="#ff0090">
+                            <font>
+                                <Font size="24.0" />
+                            </font>
+                        </Button>
+                        <TextField fx:id="amount_money" layoutX="356.0" layoutY="135.0" prefHeight="26.0" prefWidth="210.0" />
+                        <Button fx:id="money_in" layoutX="356.0" layoutY="173.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="210.0" text="Einzahlen" textFill="#ff0090" onAction="#einzahlen">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Button>
+                    </children>
+                </AnchorPane>
+            </content>
+        </Tab>
+    </tabs>
 </TabPane>
