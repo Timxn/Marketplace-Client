@@ -45,8 +45,8 @@
                   <TableView layoutY="6.0" prefHeight="246.0" prefWidth="600.0">
                     <columns>
                         <TableColumn fx:id="photo_type_markt" prefWidth="75.0" text="Phototype" />
-                      <TableColumn fx:id="price_markt" prefWidth="75.0" text="Price" />
-                      <TableColumn fx:id="available_markt" prefWidth="75.0" text="Available" />
+                        <TableColumn fx:id="price_markt" prefWidth="75.0" text="Price" />
+                        <TableColumn fx:id="available_markt" prefWidth="75.0" text="Available" />
                     </columns>
                   </TableView>
                </children></AnchorPane>
